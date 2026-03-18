@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reviews – Palani Projects</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-wrap {
+      background: linear-gradient(160deg, #3D0505 0%, #5C0A0A 100%);
+    }
+
+    .reviews-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1rem 2rem 5rem;
+    }
+
+    /* Summary banner */
+    .review-summary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      padding: 3rem;
+      background: rgba(201,150,58,0.06);
+      border: 1px solid rgba(201,150,58,0.2);
+      border-radius: 6px;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .review-big-score {
+      font-family: 'Cinzel', serif;
+      font-size: 5rem;
+      font-weight: 900;
+      color: var(--gold-bright);
+      line-height: 1;
+    }
+
+    .review-stars-large {
+      font-size: 1.8rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin: 0.3rem 0;
+    }
+
+    .review-count-text {
+      color: var(--ivory-dim);
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
+    .review-quote-banner {
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      max-width: 300px;
+      color: var(--ivory-dim);
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    /* Grid */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .review-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,150,58,0.15);
+      border-radius: 4px;
+      padding: 2rem;
+      position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .review-card:hover {
+      border-color: rgba(201,150,58,0.4);
+      transform: translateY(-4px);
+    }
+
+    .review-card::before {
+      content: '\201C';
+      position: absolute;
+      top: 0.6rem;
+      left: 1.2rem;
+      font-family: Georgia, serif;
+      font-size: 4rem;
+      color: rgba(201,150,58,0.18);
+      line-height: 1;
+    }
+
+    .review-stars {
+      color: var(--gold);
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+
+    .review-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--ivory-dim);
+      font-style: italic;
+      margin-bottom: 1.2rem;
+    }
+
+    .reviewer-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--gold-light);
+      text-transform: uppercase;
+    }
+
+    .reviewer-location {
+      font-size: 0.85rem;
+      color: rgba(240,228,200,0.45);
+      margin-top: 0.2rem;
+    }
+
+    /* Leave a review */
+    .leave-review {
+      background: rgba(201,150,58,0.06);
+      border: 1px solid rgba(201,150,58,0.2);
+      border-radius: 6px;
+      padding: 3rem;
+      text-align: center;
+    }
+
+    .leave-review h3 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .leave-review > p {
+      color: var(--ivory-dim);
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .review-form {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    /* Star selector */
+    .star-select {
+      display: flex;
+      gap: 0.3rem;
+      margin-bottom: 1.5rem;
+      justify-content: center;
+    }
+
+    .star-btn {
+      font-size: 2.2rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: rgba(201,150,58,0.25);
+      transition: color 0.15s, transform 0.15s;
+      padding: 0.1rem 0.2rem;
+      line-height: 1;
+    }
+
+    .star-btn:hover,
+    .star-btn.lit {
+      color: var(--gold);
+      transform: scale(1.2);
+    }
+
+    @media (max-width: 600px) {
+      .review-summary { gap: 1.5rem; padding: 2rem 1.5rem; }
+      .leave-review   { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <img src="logo.png" alt="Palani Projects Logo">
+    <div class="nav-logo-text">PALANI<br>PROJECTS</div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html"  >Home</a></li>
+    <li><a href="about.html"  >About</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="reviews.html" class="active">Reviews</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- PAGE -->
+<div class="page-wrap">
+
+  <div class="page-header">
+    <div class="section-label">Testimonials</div>
+    <h1 class="section-title">What Our Clients Say</h1>
+    <div class="ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-symbol">✦</div>
+      <div class="ornament-line"></div>
+    </div>
+  </div>
+
+  <div class="reviews-container">
+
+    <!-- Summary -->
+    <div class="review-summary">
+      <div>
+        <div class="review-big-score">5.0</div>
+        <div class="review-stars-large">★★★★★</div>
+        <div class="review-count-text" id="reviewCountText">Based on community reviews</div>
+      </div>
+      <div class="review-quote-banner">
+        "Every piece from Palani Projects carries the spirit of true devotion and master craftsmanship."
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="reviews-grid" id="reviewsGrid">
+      <!-- Seed reviews -->
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">The wooden deity carved for our home pooja room is absolutely breathtaking. The attention to scriptural accuracy and detail is something you rarely find. It has become the centrepiece of our altar.</p>
+        <div class="reviewer-name">Priya Naidoo</div>
+        <div class="reviewer-location">Durban, South Africa</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">I commissioned a custom name board with Tamil scripture engravings. The quality exceeded every expectation — it arrived on time and the craftsmanship was exceptional. Will definitely be ordering again.</p>
+        <div class="reviewer-name">Suren Pillay</div>
+        <div class="reviewer-location">Johannesburg, South Africa</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">What sets Palani Projects apart is the love put into every single piece. You can feel it when you hold the work. Our family's prayer altar piece is a treasure we will pass down through generations.</p>
+        <div class="reviewer-name">Kavitha Govender</div>
+        <div class="reviewer-location">Cape Town, South Africa</div>
+      </div>
+    </div>
+
+    <!-- Leave a review -->
+    <div class="leave-review">
+      <h3>Share Your Experience</h3>
+      <p>We'd love to hear from you. Your kind words help other families find us.</p>
+
+      <div class="review-form">
+        <div class="star-select" id="starSelect">
+          <button class="star-btn lit" data-val="1" onclick="setStars(1)">★</button>
+          <button class="star-btn lit" data-val="2" onclick="setStars(2)">★</button>
+          <button class="star-btn lit" data-val="3" onclick="setStars(3)">★</button>
+          <button class="star-btn lit" data-val="4" onclick="setStars(4)">★</button>
+          <button class="star-btn lit" data-val="5" onclick="setStars(5)">★</button>
+        </div>
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="reviewName" placeholder="e.g. Anitha Pillay">
+        </div>
+        <div class="form-group">
+          <label>Location <span style="color:rgba(240,228,200,0.4);font-size:0.8em;">(optional)</span></label>
+          <input type="text" id="reviewLocation" placeholder="e.g. Durban, South Africa">
+        </div>
+        <div class="form-group">
+          <label>Your Review</label>
+          <textarea id="reviewText" rows="4" placeholder="Tell us about your experience with Palani Projects..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="submitReview()">Submit Review</button>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /page-wrap -->
+
+<footer>
+  <img src="logo.png" alt="Palani Projects" class="footer-logo">
+  <div class="footer-name">Palani Projects</div>
+  <div class="footer-mantra">✦ &nbsp; Aum Saravanabava &nbsp; ✦</div>
+  <div class="footer-copy">© 2025 Palani Projects · Durban, South Africa · Handcrafted with Devotion</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  /* ─ STARS ─ */
+  let selectedStars = 5;
+
+  function setStars(val) {
+    selectedStars = val;
+    document.querySelectorAll('.star-btn').forEach(btn => {
+      btn.classList.toggle('lit', parseInt(btn.dataset.val) <= val);
+    });
+  }
+
+  /* ─ SUBMIT REVIEW ─ */
+  let userReviews = JSON.parse(localStorage.getItem('pp_reviews') || '[]');
+
+  function loadUserReviews() {
+    const grid = document.getElementById('reviewsGrid');
+    userReviews.forEach(r => appendReviewCard(r, grid));
+    updateCount();
+  }
+
+  function appendReviewCard(r, grid) {
+    const starsHtml = '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars);
+    const card = document.createElement('div');
+    card.className = 'review-card fade-in';
+    card.innerHTML = `
+      <div class="review-stars">${starsHtml}</div>
+      <p class="review-text">${r.text}</p>
+      <div class="reviewer-name">${r.name}</div>
+      <div class="reviewer-location">${r.location || 'South Africa'}</div>`;
+    grid.appendChild(card);
+  }
+
+  function updateCount() {
+    const total = 3 + userReviews.length; // 3 seed + user reviews
+    document.getElementById('reviewCountText').textContent =
+      `Based on ${total} review${total !== 1 ? 's' : ''}`;
+  }
+
+  function submitReview() {
+    const name     = document.getElementById('reviewName').value.trim();
+    const location = document.getElementById('reviewLocation').value.trim();
+    const text     = document.getElementById('reviewText').value.trim();
+
+    if (!name || !text) { showToast('Please fill in your name and review.'); return; }
+
+    const review = { name, location, text, stars: selectedStars };
+    userReviews.push(review);
+
+    try { localStorage.setItem('pp_reviews', JSON.stringify(userReviews)); } catch(e) {}
+
+    appendReviewCard(review, document.getElementById('reviewsGrid'));
+    updateCount();
+
+    document.getElementById('reviewName').value    = '';
+    document.getElementById('reviewLocation').value = '';
+    document.getElementById('reviewText').value    = '';
+    setStars(5);
+
+    showToast('Thank you for your review! ✦');
+  }
+
+  /* ─ TOAST ─ */
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  loadUserReviews();
+</script>
+</body>
+</html>

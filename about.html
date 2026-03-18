@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About – Palani Projects</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-wrap {
+      background: linear-gradient(160deg, #3D0505 0%, #5C0A0A 50%, #4A0808 100%);
+    }
+
+    .about-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-logo-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 1rem;
+      position: sticky;
+      top: 90px;
+    }
+
+    .about-logo-wrap img {
+      width: 100%;
+      max-width: 320px;
+      filter: drop-shadow(0 0 30px rgba(201,150,58,0.35));
+      animation: logoFloat 6s ease-in-out infinite;
+    }
+
+    .about-text h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      color: var(--gold-light);
+      margin-bottom: 1rem;
+      margin-top: 2.5rem;
+      letter-spacing: 0.04em;
+    }
+
+    .about-text h3:first-child { margin-top: 0; }
+
+    .about-text p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--ivory-dim);
+      margin-bottom: 1.2rem;
+    }
+
+    /* Stats */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+    }
+
+    .stat-box {
+      background: rgba(201,150,58,0.08);
+      border: 1px solid rgba(201,150,58,0.2);
+      border-radius: 4px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .stat-box:hover {
+      border-color: rgba(201,150,58,0.5);
+      transform: translateY(-3px);
+    }
+
+    .stat-number {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--gold-bright);
+      display: block;
+      line-height: 1.1;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--ivory-dim);
+      font-style: italic;
+      letter-spacing: 0.05em;
+      margin-top: 0.4rem;
+      display: block;
+    }
+
+    /* Values strip */
+    .values-strip {
+      background: rgba(0,0,0,0.2);
+      border-top: 1px solid rgba(201,150,58,0.15);
+      border-bottom: 1px solid rgba(201,150,58,0.15);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      max-width: 900px;
+      margin: 2rem auto 0;
+    }
+
+    .value-item { padding: 1rem; }
+
+    .value-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .value-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .value-desc {
+      font-size: 0.95rem;
+      color: var(--ivory-dim);
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .about-content       { grid-template-columns: 1fr; gap: 2rem; }
+      .about-logo-wrap     { order: -1; position: static; }
+      .stat-grid           { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .stat-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <img src="logo.png" alt="Palani Projects Logo">
+    <div class="nav-logo-text">PALANI<br>PROJECTS</div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html"  >Home</a></li>
+    <li><a href="about.html"   class="active">About</a></li>
+    <li><a href="gallery.html" >Gallery</a></li>
+    <li><a href="reviews.html" >Reviews</a></li>
+    <li><a href="contact.html" >Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- PAGE -->
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="section-label">Who We Are</div>
+    <h1 class="section-title">The Story of Palani Projects</h1>
+    <div class="ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-symbol">✦</div>
+      <div class="ornament-line"></div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="about-content">
+
+    <div class="about-logo-wrap">
+      <img src="logo.png" alt="Palani Projects Logo">
+    </div>
+
+    <div class="about-text">
+
+      <h3>Our Beginning</h3>
+      <p>Palani Projects was born from a deep love of craftsmanship and a profound respect for Hindu tradition. For over 15 years, we have been creating handmade wooden products from our base in Durban, South Africa — each piece a labour of devotion.</p>
+      <p>What started as a passion project has grown into a trusted name for families seeking sacred items that carry genuine spiritual intention and uncompromising quality.</p>
+
+      <h3>What We Create</h3>
+      <p>Our specialty lies in handcrafted Hindu religious items — carved murtis, altar pieces, prayer boards, decorative panels, name boards, and more. We are not limited to religious work; we also craft custom wooden gifts, home décor, and keepsakes for any occasion.</p>
+      <p>Every product we make is a custom order. We take the time to understand your vision, consult the relevant religious texts and traditions where applicable, and produce something uniquely yours.</p>
+
+      <h3>Rooted in Tradition</h3>
+      <p>All our work is created within the bounds of Hindu religious laws and customs. Where sacred proportions, iconographic rules, or scriptural guidance apply, we research thoroughly and apply it faithfully. You can commission with confidence.</p>
+
+      <h3>Our Promise</h3>
+      <p>We stand behind our craft with a lifetime guarantee on all products. As long as your piece is cared for with respect, we guarantee it will endure. This isn't just a policy — it's our word, backed by 15 years of standing behind every item we have ever made.</p>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <span class="stat-number">15+</span>
+          <span class="stat-label">Years of Craft</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">∞</span>
+          <span class="stat-label">Lifetime Guarantee</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Custom Orders</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">🕉️</span>
+          <span class="stat-label">Rooted in Tradition</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VALUES -->
+  <section class="values-strip">
+    <div class="section-label">What Drives Us</div>
+    <h2 class="section-title">Our Values</h2>
+    <div class="values-grid">
+      <div class="value-item">
+        <span class="value-icon">🙏</span>
+        <div class="value-title">Devotion</div>
+        <div class="value-desc">Every cut and carve is made with prayer and purpose.</div>
+      </div>
+      <div class="value-item">
+        <span class="value-icon">📖</span>
+        <div class="value-title">Scholarship</div>
+        <div class="value-desc">We research scripture and tradition before every sacred commission.</div>
+      </div>
+      <div class="value-item">
+        <span class="value-icon">🤝</span>
+        <div class="value-title">Integrity</div>
+        <div class="value-desc">Our lifetime guarantee is a promise, not a marketing line.</div>
+      </div>
+      <div class="value-item">
+        <span class="value-icon">🌿</span>
+        <div class="value-title">Care</div>
+        <div class="value-desc">We select quality wood and finish every piece as if it were our own.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-wrap -->
+
+<footer>
+  <img src="logo.png" alt="Palani Projects" class="footer-logo">
+  <div class="footer-name">Palani Projects</div>
+  <div class="footer-mantra">✦ &nbsp; Aum Saravanabava &nbsp; ✦</div>
+  <div class="footer-copy">© 2025 Palani Projects · Durban, South Africa · Handcrafted with Devotion</div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
