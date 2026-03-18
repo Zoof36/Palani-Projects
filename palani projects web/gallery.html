@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery – Palani Projects</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-wrap {
+      background: linear-gradient(160deg, #3D0505 0%, #5C0A0A 100%);
+    }
+
+    /* Controls bar */
+    .gallery-controls {
+      max-width: 1100px;
+      margin: 0 auto 2rem;
+      padding: 0 2rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid rgba(201,150,58,0.3);
+      background: transparent;
+      color: var(--ivory-dim);
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .filter-tab.active,
+    .filter-tab:hover {
+      background: rgba(201,150,58,0.15);
+      color: var(--gold-bright);
+      border-color: var(--gold);
+    }
+
+    .upload-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.5rem;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      color: var(--crimson-deep);
+      border: none;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .upload-btn:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(201,150,58,0.35);
+    }
+
+    /* Masonry grid */
+    .gallery-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+      columns: 3 280px;
+      column-gap: 1rem;
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(201,150,58,0.2);
+      position: relative;
+      cursor: pointer;
+      background: rgba(0,0,0,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,150,58,0.4);
+      z-index: 2;
+    }
+
+    .gallery-item img,
+    .gallery-item video {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .gallery-item-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.82) 0%, transparent 100%);
+      padding: 1.5rem 1rem 0.8rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+
+    .gallery-item-label {
+      font-size: 0.9rem;
+      color: var(--ivory);
+      font-style: italic;
+    }
+
+    .gallery-item-cat {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.25rem;
+    }
+
+    .gallery-item-delete {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: rgba(92,10,10,0.85);
+      border: 1px solid rgba(201,150,58,0.4);
+      color: var(--gold-light);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .gallery-item:hover .gallery-item-delete { opacity: 1; }
+    .gallery-item-delete:hover { background: var(--crimson); }
+
+    /* Empty state */
+    .gallery-empty {
+      text-align: center;
+      padding: 5rem 2rem;
+      grid-column: 1 / -1;
+    }
+
+    .gallery-empty .big-icon {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 1rem;
+      opacity: 0.35;
+    }
+
+    .gallery-empty p {
+      color: var(--ivory-dim);
+      font-size: 1rem;
+    }
+
+    .gallery-empty strong { color: var(--gold); }
+
+    /* ── UPLOAD MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.82);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: linear-gradient(160deg, #4A0808, #3D0505);
+      border: 1px solid rgba(201,150,58,0.35);
+      border-radius: 6px;
+      padding: 2.5rem;
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    .modal h3 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: none;
+      border: none;
+      color: var(--ivory-dim);
+      font-size: 1.4rem;
+      cursor: pointer;
+      transition: color 0.2s;
+      padding: 0.3rem;
+    }
+
+    .modal-close:hover { color: var(--gold); }
+
+    .drop-zone {
+      border: 2px dashed rgba(201,150,58,0.4);
+      border-radius: 4px;
+      padding: 2.5rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: rgba(201,150,58,0.04);
+    }
+
+    .drop-zone:hover,
+    .drop-zone.dragover {
+      border-color: var(--gold);
+      background: rgba(201,150,58,0.08);
+    }
+
+    .drop-zone-icon { font-size: 2.2rem; display: block; margin-bottom: 0.5rem; }
+
+    .drop-zone p {
+      color: var(--ivory-dim);
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
+    .drop-hint {
+      font-size: 0.78rem !important;
+      margin-top: 0.4rem;
+      color: rgba(240,228,200,0.4) !important;
+    }
+
+    #uploadPreview { display: none; margin-bottom: 1rem; border-radius: 4px; overflow: hidden; }
+    #uploadPreview img,
+    #uploadPreview video { width: 100%; max-height: 200px; object-fit: cover; border-radius: 4px; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.93);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-media {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 4px;
+      border: 1px solid rgba(201,150,58,0.3);
+      display: block;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      background: none;
+      border: 1px solid rgba(201,150,58,0.4);
+      color: var(--gold-light);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .lightbox-close:hover { background: rgba(201,150,58,0.15); }
+
+    @media (max-width: 768px) {
+      .gallery-grid { columns: 2 180px; }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-grid { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <img src="logo.png" alt="Palani Projects Logo">
+    <div class="nav-logo-text">PALANI<br>PROJECTS</div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html"  >Home</a></li>
+    <li><a href="about.html"  >About</a></li>
+    <li><a href="gallery.html" class="active">Gallery</a></li>
+    <li><a href="reviews.html">Reviews</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- PAGE -->
+<div class="page-wrap">
+
+  <div class="page-header">
+    <div class="section-label">Portfolio</div>
+    <h1 class="section-title">Our Work</h1>
+    <div class="ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-symbol">✦</div>
+      <div class="ornament-line"></div>
+    </div>
+    <p class="section-body" style="margin:0 auto 0;">
+      Every piece tells a story of devotion and precision craftsmanship.
+    </p>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="gallery-controls">
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterGallery('all', this)">All</button>
+      <button class="filter-tab" onclick="filterGallery('religious', this)">Religious Items</button>
+      <button class="filter-tab" onclick="filterGallery('decor', this)">Décor</button>
+      <button class="filter-tab" onclick="filterGallery('custom', this)">Custom Orders</button>
+    </div>
+    <button class="upload-btn" onclick="openUploadModal()">＋ Add to Gallery</button>
+  </div>
+
+  <!-- GRID -->
+  <div class="gallery-grid" id="galleryGrid">
+    <div class="gallery-empty" id="galleryEmpty">
+      <span class="big-icon">🖼️</span>
+      <p style="font-family:'Cinzel',serif;color:var(--gold-light);font-size:1.1rem;margin-bottom:0.5rem;">Your Portfolio Awaits</p>
+      <p>Click <strong>Add to Gallery</strong> to upload your first image or video.</p>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<footer>
+  <img src="logo.png" alt="Palani Projects" class="footer-logo">
+  <div class="footer-name">Palani Projects</div>
+  <div class="footer-mantra">✦ &nbsp; Aum Saravanabava &nbsp; ✦</div>
+  <div class="footer-copy">© 2025 Palani Projects · Durban, South Africa · Handcrafted with Devotion</div>
+</footer>
+
+<!-- UPLOAD MODAL -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeUploadModal()">✕</button>
+    <h3>Add to Gallery</h3>
+    <div class="form-group">
+      <label>Category</label>
+      <select id="uploadCategory">
+        <option value="religious">Religious Item</option>
+        <option value="decor">Décor</option>
+        <option value="custom">Custom Order</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Caption <span style="color:rgba(240,228,200,0.4);font-size:0.75em;">(optional)</span></label>
+      <input type="text" id="uploadCaption" placeholder="e.g. Carved Murugan murti, teak wood">
+    </div>
+    <div class="form-group">
+      <label>Image or Video</label>
+      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <span class="drop-zone-icon">📂</span>
+        <p>Click to browse, or drag &amp; drop here</p>
+        <p class="drop-hint">JPG · PNG · GIF · MP4 · MOV supported</p>
+      </div>
+      <input type="file" id="fileInput" accept="image/*,video/*" style="display:none" onchange="handleFileSelect(event)">
+    </div>
+    <div id="uploadPreview"></div>
+    <button class="submit-btn" onclick="addToGallery()">Add to Gallery</button>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="handleLightboxClick(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <div id="lightboxContent"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  /* ─ NAV ─ */
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  /* ─ STATE ─ */
+  let galleryItems = JSON.parse(localStorage.getItem('pp_gallery') || '[]');
+  let activeFilter = 'all';
+  let selectedFile = null;
+
+  /* ─ GALLERY RENDER ─ */
+  function renderGallery() {
+    const grid   = document.getElementById('galleryGrid');
+    const empty  = document.getElementById('galleryEmpty');
+    const items  = activeFilter === 'all'
+      ? galleryItems
+      : galleryItems.filter(i => i.category === activeFilter);
+
+    grid.querySelectorAll('.gallery-item').forEach(el => el.remove());
+
+    if (items.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+
+    empty.style.display = 'none';
+
+    items.forEach((item, idx) => {
+      const globalIdx = galleryItems.indexOf(item);
+      const div = document.createElement('div');
+      div.className = 'gallery-item fade-in';
+
+      const catLabels = { religious: 'Religious Item', decor: 'Décor', custom: 'Custom Order' };
+
+      if (item.fileType && item.fileType.startsWith('video/')) {
+        div.innerHTML = `
+          <video src="${item.src}" muted loop playsinline></video>
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-cat">${catLabels[item.category] || ''}</div>
+            <div class="gallery-item-label">${item.caption || ''}</div>
+          </div>
+          <button class="gallery-item-delete" onclick="deleteItem(event, ${globalIdx})">✕</button>`;
+      } else {
+        div.innerHTML = `
+          <img src="${item.src}" alt="${item.caption || 'Palani Projects work'}" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-cat">${catLabels[item.category] || ''}</div>
+            <div class="gallery-item-label">${item.caption || ''}</div>
+          </div>
+          <button class="gallery-item-delete" onclick="deleteItem(event, ${globalIdx})">✕</button>`;
+      }
+
+      div.addEventListener('click', (e) => {
+        if (e.target.classList.contains('gallery-item-delete')) return;
+        openLightbox(item);
+      });
+
+      grid.appendChild(div);
+    });
+  }
+
+  function filterGallery(filter, btn) {
+    activeFilter = filter;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderGallery();
+  }
+
+  function deleteItem(e, idx) {
+    e.stopPropagation();
+    galleryItems.splice(idx, 1);
+    saveGallery();
+    renderGallery();
+    showToast('Item removed from gallery.');
+  }
+
+  function saveGallery() {
+    try {
+      localStorage.setItem('pp_gallery', JSON.stringify(galleryItems));
+    } catch(e) {
+      // localStorage full — items still visible in session
+    }
+  }
+
+  /* ─ UPLOAD MODAL ─ */
+  function openUploadModal() {
+    document.getElementById('uploadModal').classList.add('open');
+    document.getElementById('uploadCaption').value = '';
+    document.getElementById('uploadPreview').style.display = 'none';
+    document.getElementById('uploadPreview').innerHTML = '';
+    selectedFile = null;
+  }
+
+  function closeUploadModal() {
+    document.getElementById('uploadModal').classList.remove('open');
+  }
+
+  document.getElementById('uploadModal').addEventListener('click', function(e) {
+    if (e.target === this) closeUploadModal();
+  });
+
+  /* Drag & drop */
+  const dropZone = document.getElementById('dropZone');
+  dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+  dropZone.addEventListener('dragleave', ()  => dropZone.classList.remove('dragover'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+  });
+
+  function handleFileSelect(e) {
+    if (e.target.files[0]) handleFile(e.target.files[0]);
+  }
+
+  function handleFile(file) {
+    selectedFile = file;
+    const reader  = new FileReader();
+    const preview = document.getElementById('uploadPreview');
+    preview.style.display = 'block';
+    reader.onload = (e) => {
+      if (file.type.startsWith('image/')) {
+        preview.innerHTML = `<img src="${e.target.result}">`;
+      } else {
+        preview.innerHTML = `<video src="${e.target.result}" controls></video>`;
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function addToGallery() {
+    if (!selectedFile) { showToast('Please select a file first.'); return; }
+    const caption  = document.getElementById('uploadCaption').value.trim();
+    const category = document.getElementById('uploadCategory').value;
+    const reader   = new FileReader();
+    reader.onload = (e) => {
+      galleryItems.push({ src: e.target.result, caption, category, fileType: selectedFile.type });
+      saveGallery();
+      renderGallery();
+      closeUploadModal();
+      showToast('Added to gallery ✦');
+    };
+    reader.readAsDataURL(selectedFile);
+  }
+
+  /* ─ LIGHTBOX ─ */
+  function openLightbox(item) {
+    const content = document.getElementById('lightboxContent');
+    if (item.fileType && item.fileType.startsWith('video/')) {
+      content.innerHTML = `<video src="${item.src}" controls autoplay class="lightbox-media"></video>`;
+    } else {
+      content.innerHTML = `<img src="${item.src}" alt="${item.caption || ''}" class="lightbox-media">`;
+    }
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightboxContent').innerHTML = '';
+  }
+
+  function handleLightboxClick(e) {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+  }
+
+  /* ─ TOAST ─ */
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  /* ─ INIT ─ */
+  renderGallery();
+</script>
+</body>
+</html>
