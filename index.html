@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palani Projects – Handcrafted Sacred Woodwork</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: calc(100vh - 70px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 4rem 2rem;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(180,40,20,0.35) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 20% 80%, rgba(201,150,58,0.08) 0%, transparent 60%),
+        linear-gradient(160deg, #6B0E0E 0%, #3D0505 40%, #5C0A0A 100%);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-conic-gradient(from 0deg at 50% 50%,
+        rgba(201,150,58,0.03) 0deg, transparent 10deg,
+        transparent 20deg, rgba(201,150,58,0.03) 30deg);
+      animation: rotateMandala 120s linear infinite;
+    }
+
+    .hero-logo {
+      position: relative;
+      z-index: 2;
+      width: min(320px, 72vw);
+      height: min(320px, 72vw);
+      animation: logoFloat 6s ease-in-out infinite;
+      filter: drop-shadow(0 0 40px rgba(201,150,58,0.4)) drop-shadow(0 0 80px rgba(201,150,58,0.15));
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-tagline {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 1s ease 0.2s both;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900;
+      color: var(--ivory);
+      text-align: center;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 1s ease 0.4s both;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+    }
+
+    .hero-title span {
+      color: var(--gold-light);
+      display: block;
+    }
+
+    .hero-subtitle {
+      font-family: 'Crimson Pro', serif;
+      font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+      font-style: italic;
+      color: var(--ivory-dim);
+      text-align: center;
+      margin-top: 1.2rem;
+      max-width: 520px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 1s ease 0.6s both;
+    }
+
+    .hero-mantra {
+      margin-top: 2rem;
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.65rem, 1.8vw, 0.85rem);
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 1s ease 0.8s both;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 1s ease 1s both;
+    }
+
+    /* ── FEATURES STRIP ── */
+    .features-strip {
+      background: linear-gradient(90deg, var(--crimson-deep), var(--crimson), var(--crimson-deep));
+      border-top: 1px solid rgba(201,150,58,0.2);
+      border-bottom: 1px solid rgba(201,150,58,0.2);
+      padding: 3rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .feature-item { padding: 1.5rem; }
+
+    .feature-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .feature-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-desc {
+      font-size: 0.95rem;
+      color: var(--ivory-dim);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ── HOME INTRO ── */
+    .home-intro {
+      padding: 5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .hero-cta { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== NAV ==================== -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <img src="logo.png" alt="Palani Projects Logo">
+    <div class="nav-logo-text">PALANI<br>PROJECTS</div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html"   class="active">Home</a></li>
+    <li><a href="about.html"            >About</a></li>
+    <li><a href="gallery.html"          >Gallery</a></li>
+    <li><a href="reviews.html"          >Reviews</a></li>
+    <li><a href="contact.html"          >Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ==================== HOME ==================== -->
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tagline">Aum Saravanabava</div>
+    <img src="logo.png" alt="Palani Projects" class="hero-logo">
+    <h1 class="hero-title">Palani<span>Projects</span></h1>
+    <p class="hero-subtitle">Handcrafted sacred woodwork rooted in devotion, tradition &amp; 15&nbsp;years of artisan mastery.</p>
+    <div class="hero-mantra">✦ &nbsp; Custom Orders &nbsp; ✦ &nbsp; Hindu Religious Items &nbsp; ✦ &nbsp; Lifetime Guarantee &nbsp; ✦</div>
+    <div class="hero-cta">
+      <a class="btn btn-gold"    href="gallery.html">View Our Work</a>
+      <a class="btn btn-outline" href="contact.html">Request a Custom Order</a>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-strip">
+    <div class="feature-item">
+      <span class="feature-icon">🪵</span>
+      <div class="feature-title">100% Handcrafted</div>
+      <div class="feature-desc">Each piece shaped by hand with reverence and precision — no two items are alike.</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🕉️</span>
+      <div class="feature-title">Sacred by Design</div>
+      <div class="feature-desc">Created within Hindu religious laws and traditions, backed by deep scriptural research.</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🛡️</span>
+      <div class="feature-title">Lifetime Guarantee</div>
+      <div class="feature-desc">We stand by every piece we craft — for life, with proper care.</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">✍️</span>
+      <div class="feature-title">Custom Orders</div>
+      <div class="feature-desc">Your vision, our craft. We work with you to create something truly personal and sacred.</div>
+    </div>
+  </section>
+
+  <!-- INTRO BLURB -->
+  <section class="home-intro">
+    <div class="section-label">Our Craft</div>
+    <h2 class="section-title">Sacred Art Brought to Life in Wood</h2>
+    <div class="ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-symbol">✦</div>
+      <div class="ornament-line"></div>
+    </div>
+    <p class="section-body">
+      For over 15 years, Palani Projects has been creating handmade wooden items of deep spiritual significance — from intricately carved murtis and prayer altars to decorative panels, custom name boards, and more. Every order is treated as sacred, researched carefully, and brought to life with devotion.
+    </p>
+    <a class="btn btn-gold" href="about.html">Our Story</a>
+  </section>
+
+</div><!-- /page-wrap -->
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <img src="logo.png" alt="Palani Projects" class="footer-logo">
+  <div class="footer-name">Palani Projects</div>
+  <div class="footer-mantra">✦ &nbsp; Aum Saravanabava &nbsp; ✦</div>
+  <div class="footer-copy">© 2025 Palani Projects · Durban, South Africa · Handcrafted with Devotion</div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
